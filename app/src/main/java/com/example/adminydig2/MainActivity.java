@@ -3,6 +3,7 @@ package com.example.adminydig2;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -32,6 +33,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.example.adminydig2.util.EndPoints;
+import com.example.adminydig2.util.VolleyMultipartRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     Calendar calendar;
     private SimpleDateFormat simpleDateFormat;
     private Button buttonUploadImage;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +82,12 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        progressDialog = new ProgressDialog(this , R.style.MyAlertDialogStyle);
         findViewById(R.id.buttonUploadImage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.setMessage("Mohon Menunggu...");
+                progressDialog.show();
                 uploadBitmap(bitmap);
             }
         });
@@ -102,21 +109,20 @@ public class MainActivity extends AppCompatActivity {
 
         editTextTags.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0){
                     textViewKadaluarsa.setVisibility(View.VISIBLE);
+                } else {
+                    textViewKadaluarsa.setVisibility(View.GONE);
+                    buttonUploadImage.setVisibility(View.GONE);
                 }
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
+            public void afterTextChanged(Editable s) {}
         });
     }
 
@@ -179,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             JSONObject obj = new JSONObject(new String(response.data));
                             Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                            progressDialog.hide();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -189,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.e("YARUD", "" + error.getMessage());
+                        progressDialog.hide();
                     }
                 }) {
             @Override
