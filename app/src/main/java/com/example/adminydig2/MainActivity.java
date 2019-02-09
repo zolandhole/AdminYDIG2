@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -83,10 +84,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         progressDialog = new ProgressDialog(this , R.style.MyAlertDialogStyle);
+        progressDialog.setMessage("Mohon Menunggu...");
+        progressDialog.setCanceledOnTouchOutside(false);
         findViewById(R.id.buttonUploadImage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog.setMessage("Mohon Menunggu...");
                 progressDialog.show();
                 uploadBitmap(bitmap);
             }
@@ -172,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
 
     public byte[] getFileDataFromDrawable(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
     }
 
@@ -182,10 +184,11 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
+                        progressDialog.dismiss();
                         try {
                             JSONObject obj = new JSONObject(new String(response.data));
-                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                            progressDialog.hide();
+                            Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_LONG).show();
+                            keListView();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -194,9 +197,9 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "" + error.getMessage(), Toast.LENGTH_LONG).show();
                         Log.e("YARUD", "" + error.getMessage());
-                        progressDialog.hide();
                     }
                 }) {
             @Override
@@ -214,6 +217,16 @@ public class MainActivity extends AppCompatActivity {
                 return params;
             }
         };
+        volleyMultipartRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Volley.newRequestQueue(this).add(volleyMultipartRequest);
+    }
+
+    private void keListView() {
+        Intent intent = new Intent(this, ListViewActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
