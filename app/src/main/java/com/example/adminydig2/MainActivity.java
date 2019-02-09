@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("photoname", editTextTags.getText().toString().trim());
+                params.put("caption", editTextTags.getText().toString().trim());
                 params.put("tampilkansampai", textViewKadaluarsa.getText().toString().trim());
                 return params;
             }
