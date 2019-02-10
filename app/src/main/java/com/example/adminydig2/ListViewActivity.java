@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +29,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class ListViewActivity extends AppCompatActivity {
 
@@ -128,13 +131,16 @@ public class ListViewActivity extends AppCompatActivity {
     }
 
     private void setupRecycler() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 2);
+//        mGridLayoutManager.setReverseLayout(true);
         photoAdapter = new PhotoAdapter(this, photoModels);
-        LinearLayoutManager manager = (new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, true));
-        manager.setReverseLayout(true);
-        manager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(manager);
+//        LinearLayoutManager manager = (new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, true));
+//        manager.setReverseLayout(true);
+//        manager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(mGridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(photoAdapter);
