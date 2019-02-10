@@ -43,11 +43,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         return photoModelArrayList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
         TextView textViewCaption, textViewTampilkansamapi, textViewStatus;
         ImageView imageViewPhoto;
 
-        public MyViewHolder(@NonNull View itemView) {
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewCaption = itemView.findViewById(R.id.textViewCaption);
             textViewTampilkansamapi = itemView.findViewById(R.id.textViewTampilkansampai);
