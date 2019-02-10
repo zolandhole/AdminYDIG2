@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,13 +27,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class ListViewActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
-    private PhotoAdapter photoAdapter;
     private RecyclerView recyclerView;
     private TextView textViewNophoto;
     ArrayList<PhotoModel> photoModels;
@@ -136,7 +131,7 @@ public class ListViewActivity extends AppCompatActivity {
 
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 2);
 //        mGridLayoutManager.setReverseLayout(true);
-        photoAdapter = new PhotoAdapter(this, photoModels);
+        PhotoAdapter photoAdapter = new PhotoAdapter(this, photoModels);
 //        LinearLayoutManager manager = (new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, true));
 //        manager.setReverseLayout(true);
 //        manager.setStackFromEnd(true);
