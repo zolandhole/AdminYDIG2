@@ -56,6 +56,13 @@ public class ListViewActivity extends AppCompatActivity {
                 finish();
             }
         });
+        findViewById(R.id.buttonTab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListViewActivity.this,TabActivity.class);
+                startActivity(intent);
+            }
+        });
 
         textViewNophoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +77,6 @@ public class ListViewActivity extends AppCompatActivity {
         toolbar.setTitle("Admin Panel");
         toolbar.setSubtitle("YDIG");
         setSupportActionBar(toolbar);
-        toolbar.setSubtitle("YDIG");
     }
 
     private void mengambilData() {
@@ -126,15 +132,9 @@ public class ListViewActivity extends AppCompatActivity {
     }
 
     private void setupRecycler() {
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 2);
-//        mGridLayoutManager.setReverseLayout(true);
         PhotoAdapter photoAdapter = new PhotoAdapter(this, photoModels);
-//        LinearLayoutManager manager = (new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, true));
-//        manager.setReverseLayout(true);
-//        manager.setStackFromEnd(true);
         recyclerView.setLayoutManager(mGridLayoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);

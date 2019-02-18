@@ -35,7 +35,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         holder.textViewCaption.setText(photoModelArrayList.get(position).getCaption());
         holder.textViewTampilkansamapi.setText(photoModelArrayList.get(position).getTampilkansampai());
         holder.textViewStatus.setText(photoModelArrayList.get(position).getStatusphoto());
-        Picasso.get().load(photoModelArrayList.get(position).getImgURL()).into(holder.imageViewPhoto);
+        Picasso.get().load(photoModelArrayList.get(position).getImgURL()).fit().centerCrop().into(holder.imageViewPhoto);
     }
 
     @Override
